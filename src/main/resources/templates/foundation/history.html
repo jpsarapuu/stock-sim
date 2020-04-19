@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Tallinn Stock Exchange Simulator">
+    <meta name="author" content="Johannes Sarapuu">
+    <title>TSE Sim - History</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="'/assets/css/app.css'" href="../../static/assets/css/app.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="'/assets/css/override.css'" href="../../static/assets/css/override.css">
+
+    <!-- Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet">
+
+</head>
+
+<body style="background-image: linear-gradient(#011865, #21618E); background-repeat: no-repeat">
+
+<!-- Off-canvas mobile menu -->
+<div class="off-canvas position-top" id="offCanvas" data-off-canvas>
+    <div class="callout">
+        <button class="close-button" aria-label="Close alert" type="button" data-close>
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <ul class="menu-mobile">
+            <li><a href="/">My Portfolio</a></li>
+            <li><a href="/buy">Buy Stocks</a></li>
+            <li><a href="/history">History</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- On-canvas -->
+<div style="background-color: white" class="off-canvas-content" data-off-canvas-content>
+
+    <!-- Mobile Navigation -->
+    <div class="title-bar show-for-small-only nav-mobile">
+        <div class="wrap">
+            <div class="title-bar-left nav-mobile">
+                <div class="site-title">
+                    <a href="/">TSE Sim</a>
+                </div>
+            </div>
+            <div class="title-bar-right nav-mobile-right">
+                <button class="menu-icon" type="button" data-open="offCanvas"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="top-bar nav-desktop">
+        <div class="wrap">
+            <div class="top-bar-left nav-desktop">
+                <div class="site-title">
+                    <a href="/">TSE Sim</a>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <ul class="menu menu-desktop">
+                    <li><a href="/">My Portfolio</a></li>
+                    <li><a href="/buy">Buy Stocks</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="second-bar">
+        <div th:text="${#strings.capitalize(username) + '''s Transactions'}" class="second-bar-content">Transactions</div>
+    </div>
+
+    <div class="hide-for-small-only" style="height: 55px"></div>
+
+    <div style="margin: auto; max-width: 1024px;">
+
+        <div th:if="${transactions.isEmpty()}">
+            <div class="card" style="border-left: 0; border-right: 0; margin-top: 0px">
+                <div class="card-section" style="padding: 14px; text-align: center; font-size: 16px">
+                    <a href="/buy" style="color: #1779ba">Buy</a> some stocks to get started.
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-x grid-padding-x" style="padding-bottom: 14px; padding-left: 14px; padding-right: 14px; margin-top: 14px; font-size: 16px; font-weight: normal;">
+            <div class="large-4 medium-4 small-4 cell">
+                Date
+            </div>
+            <div class="large-4 medium-4 small-4 cell">
+                Ticker
+            </div>
+            <div class="large-4 medium-4 small-4 cell">
+                Amount
+            </div>
+        </div>
+
+        <ul class="accordion" data-accordion data-allow-all-closed="true" style="margin-bottom: 0">
+            <li th:each="transaction : ${transactions}" class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">
+                    <div class="grid-x grid-padding-x">
+                        <div th:text="${#temporals.format(transaction.dateTime, 'dd-MM-yyyy')}" class="large-4 medium-4 small-4 cell">
+                            24-02-2020
+                        </div>
+                        <div th:text="${transaction.stock.ticker}"
+                             class="large-4 medium-4 small-4 cell">
+                            ARC1T
+                        </div>
+                        <div th:text="${transaction.amount}" class="large-4 medium-4 small-4 cell">
+                            111
+                        </div>
+                    </div>
+                </a>
+                <div class="accordion-content" data-tab-content>
+                    <div th:if="${transaction.amount > 0}" th:text="'Bought ' + ${transaction.amount} + ' shares ' + ${#numbers.formatDecimal(transaction.price, 1, 'COMMA', 2, 'POINT') + ' €'} + ' each for a total of ' + ${#numbers.formatDecimal(transaction.price * transaction.amount, 1, 'COMMA', 2, 'POINT') + ' €'} + ' on ' + ${#temporals.format(transaction.dateTime, 'dd-MM-yyyy HH:mm:ss')} + '.'"></div>
+                    <div th:if="${transaction.amount < 0}" th:text="'Sold ' + ${-transaction.amount} + ' shares ' + ${#numbers.formatDecimal(transaction.price, 1, 'COMMA', 2, 'POINT') + ' €'} + ' each for a total of ' + ${#numbers.formatDecimal(transaction.price * -transaction.amount, 1, 'COMMA', 2, 'POINT') + ' €'} + ' on ' + ${#temporals.format(transaction.dateTime, 'dd-MM-yyyy HH:mm:ss')} + '.'"></div>
+                </div>
+            </li>
+        </ul>
+        <div class="hide-for-small-only" style="height: 55px"></div>
+
+    </div>
+</div>
+
+<script th:src="'/assets/js/app.js'" src="../../static/assets/js/app.js"></script>
+</body>
+</html>

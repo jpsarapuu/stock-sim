@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Stock Sim</title>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Stock Sim</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">My Portfolio<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/buy">Buy Stocks</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/history">History</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!--<img src="../static/images/001.jpg" alt="tallinn" style="width: 100%; filter: brightness(75%)">-->
+
+<h1 style="text-align: center; padding: 50px">Your Stocks</h1>
+
+<!--Striped table-->
+<table style="width: 80%; margin: auto" class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 20%">Ticker</th>
+        <th scope="col" style="width: 20%">Name</th>
+        <th scope="col" style="width: 20%">Price</th>
+        <th scope="col" style="width: 10%">Amount</th>
+        <th scope="col" style="width: 10%">Value</th>
+        <th scope="col" style="width: 20%">Sell</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:remove="all">
+        <th scope="row">ARC1T</th>
+        <td>Arco Vara</td>
+        <td>1.31 €</td>
+        <td>5</td>
+        <td>6.55 €</td>
+    </tr>
+    <tr th:remove="all">
+        <th scope="row">BLT1T</th>
+        <td>Baltika</td>
+        <td>0.14 €</td>
+        <td>10</td>
+        <td>1.40 €</td>
+    </tr>
+    <tr th:each="stock : ${stocks}">
+        <th scope="row" th:text="${stock.ticker}">BLT1T</th>
+        <td th:text="${stock.name}">Baltika</td>
+        <td th:text="${#numbers.formatDecimal(stockDTOMap.get(stock).price, 1, 'COMMA', 2, 'POINT') + ' €'}">0.14 €</td>
+        <td th:text="${stockDTOMap.get(stock).amount}">10</td>
+        <td th:text="${#numbers.formatDecimal(stockDTOMap.get(stock).price * stockDTOMap.get(stock).amount, 1, 'COMMA', 2, 'POINT') + ' €'}">1.40 €</td>
+        <td>
+            <form class="form-inline" action="/sell" method="POST">
+                <input class="form-control form-control-sm" th:name="${stock.ticker}" type="number">
+                <button class="btn btn-primary btn-sm" type="submit">Sell</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<table style="width: 24%; margin-left: 66%" class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 100%">Cash Balance</th>
+    </tr>
+    </thead>
+    <tr>
+        <td th:text="${#numbers.formatDecimal(balance, 1, 'COMMA', 2, 'POINT') + ' €'}">100.00 €</td>
+    </tr>
+</table>
+
+<table style="width: 24%; margin-left: 66%" class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 100%">Grand Total</th>
+    </tr>
+    </thead>
+    <tr>
+        <td th:text="${#numbers.formatDecimal(total + balance, 1, 'COMMA', 2, 'POINT') + ' €'}">200.00 €</td>
+    </tr>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>

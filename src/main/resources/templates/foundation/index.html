@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Tallinn Stock Exchange Simulator">
+    <meta name="author" content="Johannes Sarapuu">
+    <title>TSE Sim - My Portfolio</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="'/assets/css/app.css'" href="../../static/assets/css/app.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="'/assets/css/override.css'" href="../../static/assets/css/override.css">
+
+    <!-- Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet">
+
+</head>
+
+<body style="background-image: linear-gradient(#011865, #21618E); background-repeat: no-repeat">
+
+<!-- Off-canvas mobile menu -->
+<div class="off-canvas position-top" id="offCanvas" data-off-canvas>
+    <div class="callout">
+        <button class="close-button" aria-label="Close alert" type="button" data-close>
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <ul class="menu-mobile">
+            <li><a href="/">My Portfolio</a></li>
+            <li><a href="/buy">Buy Stocks</a></li>
+            <li><a href="/history">History</a></li>
+            <li><a href="/logout">Logout</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- On-canvas -->
+<div style="background-color: white" class="off-canvas-content" data-off-canvas-content>
+
+    <!-- Mobile Navigation -->
+    <div class="title-bar show-for-small-only nav-mobile">
+        <div class="wrap">
+            <div class="title-bar-left nav-mobile">
+                <div class="site-title">
+                    <a href="/">TSE Sim</a>
+                </div>
+            </div>
+            <div class="title-bar-right nav-mobile-right">
+                <button class="menu-icon" type="button" data-open="offCanvas"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="top-bar nav-desktop">
+        <div class="wrap">
+            <div class="top-bar-left nav-desktop">
+                <div class="site-title">
+                    <a href="/">TSE Sim</a>
+                </div>
+            </div>
+            <div class="top-bar-right">
+                <ul class="menu menu-desktop">
+                    <li><a href="/">My Portfolio</a></li>
+                    <li><a href="/buy">Buy Stocks</a></li>
+                    <li><a href="/history">History</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="second-bar">
+        <div th:text="${#strings.capitalize(username) + '''s Portfolio'}" class="second-bar-content">My Portfolio</div>
+    </div>
+
+    <div class="hide-for-small-only" style="height: 55px"></div>
+
+    <div style="margin: auto; max-width: 1024px">
+
+        <th:block th:switch="${param.status.get(0)}" th:unless="${param.status == null}">
+            <div th:case="'0'" class="callout success" role="alert" style="text-align: center">
+                Stock purchase successful!
+            </div>
+            <div th:case="'1'" class="callout alert" role="alert" style="text-align: center">
+                Invalid input.
+            </div>
+            <div th:case="'2'" class="callout alert" role="alert" style="text-align: center">
+                Amount must be positive.
+            </div>
+            <div th:case="'3'" class="callout alert" role="alert" style="text-align: center">
+                Not enough funds.
+            </div>
+            <div th:case="'4'" class="callout success" role="alert" style="text-align: center">
+                Stock sale successful!
+            </div>
+            <div th:case="'5'" class="callout alert" role="alert" style="text-align: center">
+                Amount cannot be zero.
+            </div>
+            <div th:case="'6'" class="callout alert" role="alert" style="text-align: center">
+                Not enough stocks for transaction.
+            </div>
+        </th:block>
+
+        <div th:if="${stocks.isEmpty()}">
+            <div class="card" style="border-left: 0; border-right: 0; margin-top: 0px">
+                <div class="card-section" style="padding: 14px; text-align: center; font-size: 16px">
+                    You have no stocks, wish to <a href="/buy" style="color: #1779ba">buy some?</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-x grid-padding-x" style="padding-bottom: 14px; padding-left: 14px; padding-right: 14px; margin-top: 14px; font-size: 16px; font-weight: normal;">
+            <div class="large-3 medium-3 small-3 cell">
+                Ticker
+            </div>
+            <div class="large-3 medium-3 small-3 cell">
+                Price (€)
+            </div>
+            <div class="large-3 medium-3 small-3 cell">
+                Amount
+            </div>
+            <div class="large-3 medium-3 small-3 cell">
+                Value (€)
+            </div>
+        </div>
+
+        <ul class="accordion" data-accordion data-allow-all-closed="true">
+            <li th:each="stock : ${stocks}" class="accordion-item" data-accordion-item>
+                <a href="#" class="accordion-title">
+                    <div class="grid-x grid-padding-x">
+                        <div th:text="${stock.ticker}" class="large-3 medium-3 small-3 cell">
+                            ARC1T
+                        </div>
+                        <div th:text="${#numbers.formatDecimal(stockDTOMap.get(stock).price, 1, 'COMMA', 2, 'POINT') + ''}"
+                             class="large-3 medium-3 small-3 cell">
+                            1.35
+                        </div>
+                        <div th:text="${stockDTOMap.get(stock).amount}" class="large-3 medium-3 small-3 cell">
+                            100
+                        </div>
+                        <div th:text="${#numbers.formatDecimal(stockDTOMap.get(stock).price * stockDTOMap.get(stock).amount, 1, 'COMMA', 2, 'POINT') + ''}"
+                             class="large-3 medium-3 small-3 cell">
+                            135.00
+                        </div>
+                    </div>
+                </a>
+                <div class="accordion-content" data-tab-content>
+                    <div class="grid-x grid-padding-x">
+                        <div class="large-6 medium-6 small-12 cell">
+                            <img class="float-center" th:src="${'/assets/img/' + stock.ticker + '.png'}" src="../../static/assets/img/ARC1T.png" style="margin-top: -16px; margin-bottom: -16px">
+                            <form action="/sell" method="POST" style="margin-bottom: -14px;  padding-top: 14px">
+                                <div class="input-group" style="padding-bottom: 8px">
+                                    <span class="input-group-label">Amount</span>
+                                    <input th:name="${stock.ticker}" class="input-group-field" type="number">
+                                    <div class="input-group-button">
+                                        <input type="submit" class="button" value="Sell">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div th:text="${stock.description}" class="hide-for-small-only large-6 medium-6 small-12 cell" style="padding-top: 8px; text-align: justify; line-height: 1.7">Description...</div>
+                        <div class="show-for-small-only large-6 medium-6 small-12 cell" style="padding-top: 8px">
+                            <ul class="accordion" data-accordion data-allow-all-closed="true">
+                                <li class="accordion-item" data-accordion-item>
+                                    <a th:text="${'About ' + stock.name + '...'}" href="#" class="accordion-title invis-accordion" style="border: 0; padding: 10px 0; font-size: 16px;">
+                                        About Arco Vara...
+                                    </a>
+                                    <div th:text="${stock.description}" class="accordion-content" data-tab-content style="border: 0; padding: 0; text-align: justify; line-height: 1.6">
+                                        Arco Vara Kinnisvarabüroo OÜ is a franchise company operating from the third quarter of 2018 under an exclusive licence agreement. Arco Vara’s trademark started in 1992, being the first real estate agency in Estonia.
+                                        The main area of activity of Arco Vara Kinnisvarabüroo (Real Estate Agency) is real estate appraisal, brokerage, purchase, sale and rental related services for residential and commercial premises. We believe everyone deserves a home!
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+        </ul>
+
+        <div>
+            <div class="card" style="border-left: 0; border-right: 0; margin-top: -17px">
+                <div class="card-section" style="padding: 14px;">
+                    <div class="grid-x grid-padding-x" style="font-size: 16px; font-weight: normal;">
+                        <div class="large-9 medium-9 small-9 cell"></div>
+                        <div class="large-3 medium-3 small-3 cell">Cash (€)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-x grid-padding-x" style="padding: 0 14px 14px; font-size: 16px; font-weight: normal;">
+            <div class="large-9 medium-9 small-9 cell"></div>
+            <div th:text="${#numbers.formatDecimal(balance, 1, 'COMMA', 2, 'POINT') + ''}"
+                 class="large-3 medium-3 small-3 cell">9,698.00
+            </div>
+        </div>
+
+        <div>
+            <div class="card" style="border-left: 0; border-right: 0">
+                <div class="card-section" style="padding: 14px">
+                    <div class="grid-x grid-padding-x" style="font-size: 16px; font-weight: normal;">
+                        <div class="large-9 medium-9 small-9 cell"></div>
+                        <div class="large-3 medium-3 small-3 cell">Total (€)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-x grid-padding-x" style="padding: 0 14px 14px; font-size: 16px; font-weight: normal;">
+            <div class="large-9 medium-9 small-9 cell"></div>
+            <div th:text="${#numbers.formatDecimal(total + balance, 1, 'COMMA', 2, 'POINT') + ''}"
+                 class="large-3 medium-3 small-3 cell">10,000.00
+            </div>
+        </div>
+        <div class="hide-for-small-only" style="height: 55px"></div>
+
+    </div>
+</div>
+
+<script th:src="'/assets/js/app.js'" src="../../static/assets/js/app.js"></script>
+</body>
+</html>

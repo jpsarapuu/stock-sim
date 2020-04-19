@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Tallinn Stock Exchange Simulator">
+    <meta name="author" content="Johannes Sarapuu">
+    <title>TSE Sim - Sign in</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="'/assets/css/app.css'" href="../../static/assets/css/app.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="'/assets/css/override.css'" href="../../static/assets/css/override.css">
+
+    <!-- Fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet">
+
+</head>
+
+<body th:styleappend="'background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/assets/img/tallinn.jpg);'"
+      style="
+background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../../static/assets/img/tallinn.jpg);
+height: 100vh;
+background-size: cover;
+background-position: 80% 0%;
+background-attachment: fixed;">
+
+<form method="post" action="/login">
+    <div class="grid-x grid-padding-x">
+        <div class="large-5 medium-4 cell">
+        </div>
+        <div class="large-2 medium-4 cell">
+            <div class="card" style="margin-top: 35vh">
+                <div class="card-section">
+                    <h6>Tallinn Stock Exchange Simulator</h6>
+                    <div th:if="${param.success}" class="callout success" role="alert" style="text-align: center">
+                        User creation successful.
+                    </div>
+                    <div th:if="${param.error}" class="callout alert" role="alert" style="text-align: center">
+                        Invalid username/password.
+                    </div>
+                    <div th:if="${param.logout}" class="callout success" role="alert" style="text-align: center">
+                        Logout successful.
+                    </div>
+                    <input type="text" placeholder="Username" name="username" autofocus>
+                    <input type="password" placeholder="Password" name="password">
+                    <button type="submit" class="button expanded" style="font-size: 1rem">Sign in</button>
+                    <p style="text-align: center">Not a registered user yet? <a
+                            style="color: #1779ba;" href="/signup">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script th:src="'/assets/js/app.js'" src="../../static/assets/js/app.js"></script>
+</body>
+</html>

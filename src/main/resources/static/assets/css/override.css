@@ -1,0 +1,292 @@
+/* General */
+
+body {
+    font-family: 'Titillium Web', sans-serif;
+}
+
+h6 {
+    font-size: 18px;
+    text-align: center;
+    font-weight: 400;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+h2 {
+    text-align: center;
+
+}
+
+.card-section {
+
+}
+
+::placeholder {
+    color: black;
+    opacity: 0.5;
+}
+
+* {
+    outline: none;
+}
+
+p {
+    line-height: 1.44;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    color: #1779ba;;
+}
+
+.wrap {
+    display: inherit;
+    width: 95%;
+    margin: 0 auto;
+}
+
+
+/* Site title */
+
+.site-title a {
+
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 90px;
+    letter-spacing: 0px;
+}
+
+@media (max-width: 639px) {
+    .site-title a {
+
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 56px;
+        letter-spacing: 0px;
+    }
+}
+
+
+/* Desktop Navigation */
+
+.top-bar ul {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.nav-desktop {
+    /*background-image: linear-gradient(#212b36, #0099ba);*/
+    background-image: linear-gradient(#011865, #21618E);
+    height: 84px;
+}
+
+.menu-desktop a {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 66px;
+    letter-spacing: 0px;
+}
+
+.second-bar {
+    background-color: #112233;
+    height: 42px;
+    color: white;
+
+    line-height: 42px
+}
+
+.second-bar-content {
+    margin-left: 3%;
+}
+
+
+/* Mobile Navigation */
+
+@media (max-width: 639px) {
+    .nav-desktop {
+        display: none;
+    }
+}
+
+@media (max-width: 639px) {
+    .second-bar {
+        font-size: 15px;
+        background-color: #112233;
+        height: 28px;
+        color: white;
+
+        line-height: 28px
+    }
+}
+
+@media (max-width: 639px) {
+    .second-bar-content {
+        margin-left: 5.5%;
+    }
+}
+
+.nav-mobile {
+    height: 56px;
+    /*background-image: linear-gradient(#212b36, #0099ba);*/
+    background-image: linear-gradient(#011865, #21618E);
+    background-repeat: no-repeat;
+}
+
+.nav-mobile-right {
+
+    padding-top: 28px;
+}
+
+.menu-icon {
+
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 24px;
+    cursor: pointer;
+    margin-top: -16px;
+}
+
+.menu-icon:hover::after {
+    background: #1779ba;;
+    -webkit-box-shadow: 0 7px 0 #1779ba, 0 14px 0 #1779ba;
+    box-shadow: 0 7px 0 #1779ba, 0 14px 0 #1779ba;
+}
+
+#offCanvas {
+    background-image: linear-gradient(#21618E, #011865);
+}
+
+.js-off-canvas-overlay {
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.menu-mobile a {
+    margin-left: 25%;
+    text-align: center;
+    width: 50%;
+    padding-right: 20px;
+    display: block;
+
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 50px;
+    letter-spacing: 0px;
+}
+
+.menu-mobile li {
+    list-style: none;
+}
+
+.callout {
+    position: relative;
+    margin: 0 0 1rem 0;
+    padding: 1rem;
+    border: 0px solid rgba(10, 10, 10, 0.25);
+    border-radius: 0;
+    background-color: transparent;
+    color: #0a0a0a;
+}
+
+.callout > :first-child {
+    margin-top: 0;
+}
+
+.callout > :last-child {
+    margin-bottom: 0;
+}
+
+.callout.primary {
+    background-color: #d7ecfa;
+    color: #0a0a0a;
+}
+
+.callout.secondary {
+    background-color: #eaeaea;
+    color: #0a0a0a;
+}
+
+.callout.success {
+    background-color: #e1faea;
+    color: #0a0a0a;
+}
+
+.callout.warning {
+    background-color: #fff3d9;
+    color: #0a0a0a;
+}
+
+.callout.alert {
+    background-color: #f7e4e1;
+    color: #0a0a0a;
+}
+
+.callout.small {
+    padding-top: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.callout.large {
+    padding-top: 3rem;
+    padding-right: 3rem;
+    padding-bottom: 3rem;
+    padding-left: 3rem;
+}
+
+.close-button {
+    position: absolute;
+    color: white;
+    cursor: pointer;
+}
+
+[data-whatinput='mouse'] .close-button {
+    outline: 0;
+}
+
+.close-button:focus {
+    color: white;
+}
+
+.close-button:hover {
+    color: #1779ba;;
+}
+
+.close-button.small {
+    right: 0.66rem;
+    top: 0.33em;
+    font-size: 1.5em;
+    line-height: 1;
+}
+
+.close-button, .close-button.medium {
+    right: 1rem;
+    top: 0.5rem;
+    font-size: 2em;
+    line-height: 1;
+}
+
+
+/*Accordion customisation*/
+
+.accordion-title {
+    font-family: "DejaVu Sans Mono", monospace;
+    font-size: 14px;
+}
+
+.invis-accordion {
+    display: inline-block;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.invis-accordion:hover {
+    background-color: white;
+}
+
+.invis-accordion:focus {
+    background-color: white;
+}
